@@ -1,4 +1,4 @@
-from gradient_optimizers import BaseOptimizers
+from regression.gradient_optimizers import BaseOptimizers
 from sklearn.datasets import make_regression
 from sklearn.model_selection import train_test_split
 import numpy as np
@@ -10,17 +10,17 @@ class LinearRegression(BaseOptimizers):
                random_seed = 42):
     super().__init__(optimizer)
     self.random_seed = random_seed
-  
+
   def add_dummy_feature(self, X):
     matrix_dummy = np.hstack((np.ones((X.shape[0], 1),
                                             dtype = X.dtype), 
                                             X))
     return matrix_dummy
-  
+
   def preprocess(self, X):
     X = self.add_dummy_feature(X)
     return X
-  
+
   def train(self,
             X_train,
             y_train,
@@ -42,7 +42,7 @@ class LinearRegression(BaseOptimizers):
       self.optimized_weights = self.stochastic_gd(X_train, y_train,
                                                   verbose, epochs=epochs)
     self.weights = self.all_weights
-                                                  
+
   def predict(self, X):
     X = self.add_dummy_feature(X)
     assert X.shape[-1] == self.optimized_weights.shape[0], 'Incompatible Shapes'

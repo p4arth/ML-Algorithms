@@ -7,7 +7,7 @@ class BaseOptimizers():
   def loss(self, X, w, y):
     assert X.shape[-1] == w.shape[0], 'Incompatible shapes'
     y_hat = X @ w
-    loss_ = np.sum(np.square(y_hat - y))
+    loss_ = np.sum(np.square(y_hat - y)) 
     return loss_
 
   def lr_schedule(self,t):
@@ -16,7 +16,7 @@ class BaseOptimizers():
   
   def gradient(self, X, w, y):
     assert X.shape[-1] == w.shape[0], 'Incompatible shapes'
-    return X.T @ ((X @ w) - y)
+    return X.T @ ((X @ w) - y) * (1/X.shape[0])
   
   def gradient_descent(self, X, y, 
                        verbose, epochs, lr):
