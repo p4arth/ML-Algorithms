@@ -1,7 +1,15 @@
-import os
 import sys
-sys.path.insert(0, os.path.abspath(".."))
-from regression.linear_regression import LinearRegression
+import os
+from pathlib import Path
+file = Path(__file__).resolve()
+parent, root = file.parent, file.parents[2]
+sys.path.append(str(root))
+try:
+    sys.path.remove(str(parent))
+except ValueError:
+    pass
+
+from linear_models.regression.linear_regression import LinearRegression
 import numpy as np
 import pandas as pd
 

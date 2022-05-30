@@ -1,4 +1,15 @@
-from regression.gradient_optimizers import BaseOptimizers
+import sys
+import os
+from pathlib import Path
+file = Path(__file__).resolve()
+parent, root = file.parent, file.parents[2]
+sys.path.append(str(root))
+try:
+    sys.path.remove(str(parent))
+except ValueError:
+    pass
+
+from optimizers.gradient_optimizers import BaseOptimizers
 from sklearn.datasets import make_regression
 from sklearn.model_selection import train_test_split
 import numpy as np
