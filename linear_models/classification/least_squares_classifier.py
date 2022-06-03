@@ -21,27 +21,8 @@ class LeastSquareClassifier():
         self.optimizer = optimizer
         
     def encode_labels(self, labels):
-        if self.n_classes == 2:
-            unique = np.unique(labels)
-            one_hot_labels = []
-            for x in labels:
-                if x == unique[0]:
-                    one_hot_labels.append(1)
-                else:
-                    one_hot_labels.append(0)
-            return np.array(one_hot_labels).reshape(-1,1)
-        else:
-            unique = np.unique(labels)
-            one_hot_labels = []
-            for i in range(unique.shape[0]):
-                temp = []
-                for x in labels:
-                    if x == unique[i]:
-                        temp.append(1)
-                    else:
-                        temp.append(0)
-                one_hot_labels.append(temp)
-            return np.array(one_hot_labels).T
+        n_labels = np.max(labels) + 1
+        return np.eye(n_labels)[labels]
         
     def predict_training(self, X, w):
         predictions = (X @ w)
