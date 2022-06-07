@@ -35,38 +35,56 @@ class LinearRegression():
     X = self.add_dummy_feature(X)
     return X
 
-  def train(self,
+  def sse_gradient(self, X, w, y):
+    return (X.T @ ((X @ w) - y)) + self.alpha*w
+    
+  def sse_loss(self, X, w, y):
+    assert X.shape[-1] == w.shape[0], 'Incompatible shapes'
+    y_hat = X @ w
+    loss_ = np.sum(np.square(y_hat - y) + (self.alpha / 2)*np.dot(w.T,w))
+    return loss_
+
+  def fit(self,
             X_train,
             y_train,
             epochs = 200,
             batch_size = 0,
             learning_rate = 0.001,
             verbose = False,
-            loss = 'SSE',
             penalty = None,
             alpha = 0):
     assert batch_size < X_train.shape[0], 'batch size must be smaller than the number of data points'
+    
     X_train = self.preprocess(X_train)
+    self.alpha = alpha
     if self.optimizer == 'GD':
-      gd = GradientDescent(loss, penalty, alpha)
-      self.optimized_weights = gd.descent(X_train, y_train, verbose,
-                                          epochs, learning_rate)
+      gd = GradientDescent(penalty = penalty, alpha = self.alpha,
+                          loss_function = self.sse_loss,
+                          gradient_function = self.sse_gradient)
+      self.optimized_weights = gd.descent(X_train, y_train,
+                                          verbose = verbose,
+                                          epochs = epochs,
+                                          lr = learning_rate)
       self.weights = gd.all_weights
+    
     elif self.optimizer == 'MBGD':
-      mbgd = MiniBatchGD(loss, penalty, alpha)  
-      self.optimized_weights = mbgd.descent(X_train, y_train,
-                                                  verbose, epochs=epochs,
-                                                  batch_size = batch_size)
+      mbgd = MiniBatchGD(penalty = penalty, alpha = self.alpha,
+                          loss_function = self.sse_loss,
+                          gradient_function = self.sse_gradient) 
+      self.optimized_weights = mbgd.descent(X_train, y_train, 
+                                            verbose, epochs=epochs, 
+                                            batch_size = batch_size)
       self.weights = mbgd.all_weights
-    else:
-      sgd = StochasticGD(loss, penalty, alpha)
-      self.optimized_weights = sgd.descent(X_train, y_train,
-                                                  verbose, epochs=epochs)
+    elif self.optimizer == 'SGD':
+      sgd = StochasticGD(penalty = penalty, alpha = self.alpha,
+                          loss_function = self.sse_loss,
+                          gradient_function = self.sse_gradient) 
+      self.optimized_weights = sgd.descent(X_train, y_train, verbose, epochs=epochs)
       self.weights = sgd.all_weights
     
   def predict(self, X):
     X = self.add_dummy_feature(X)
     assert X.shape[-1] == self.optimized_weights.shape[0], 'Incompatible Shapes'
-    self.predictions = X @ self.optimized_weights
-    return self.predictions
+    predictions = X @ self.optimized_weights
+    return predictions
 

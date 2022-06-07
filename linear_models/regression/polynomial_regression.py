@@ -30,7 +30,7 @@ class PolynomialRegression():
             verbose = False):
         X_train = self.polynomial_transform(X_train)
         self.model = LinearRegression(optimizer = self.optimizer)
-        self.model.train(X_train, y_train,
+        self.model.fit(X_train, y_train,
             epochs = epochs,
             batch_size = batch_size,
             learning_rate = learning_rate,
