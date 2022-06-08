@@ -1,6 +1,7 @@
 import sys
 import os
 from pathlib import Path
+import numpy as np
 file = Path(__file__).resolve()
 parent, root = file.parent, file.parents[2]
 sys.path.append(str(root))
@@ -9,10 +10,10 @@ try:
 except ValueError:
     pass
 
-import numpy as np
 from optimizers.gradient_descent import GradientDescent
 from optimizers.mini_batch_gd import MiniBatchGD
 from optimizers.stochastic_gd import StochasticGD
+from preprocessing.add_dummy import add_dummy_feature
 
 class LogisticRegression():
     def __init__(self, penalty = None, alpha = 0,
@@ -40,7 +41,11 @@ class LogisticRegression():
     
     def fit(self, X, y,
             verbose, epochs = 10,
-            lr = 0.01, batch_size = 0):
+            lr = 0.01, batch_size = 0,
+            fit_intercept = False):
+        self.intercept = fit_intercept
+        if self.intercept:
+            X = add_dummy_feature(X)
         if self.optimizer == 'GD':
             gd = GradientDescent(penalty = self.penalty, alpha = self.alpha,
                               loss_function = self.neg_log_loss,
@@ -66,4 +71,6 @@ class LogisticRegression():
             self.weights = sgd.all_weights
 
     def predict(self, X):
+        if self.intercept:
+            X = add_dummy_feature(X)
         return np.where(self.sigmoid(X@self.optimized_weights) > self.threshold, 1, 0)

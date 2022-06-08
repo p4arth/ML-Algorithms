@@ -1,6 +1,7 @@
 import sys
 import os
 from pathlib import Path
+import numpy as np
 file = Path(__file__).resolve()
 parent, root = file.parent, file.parents[2]
 sys.path.append(str(root))
@@ -12,11 +13,7 @@ except ValueError:
 from optimizers.gradient_descent import GradientDescent
 from optimizers.mini_batch_gd import MiniBatchGD
 from optimizers.stochastic_gd import StochasticGD
-
-from sklearn.datasets import make_regression
-from sklearn.model_selection import train_test_split
-import numpy as np
-import pandas as pd
+from preprocessing.add_dummy import add_dummy_feature
 
 class LinearRegression():
   def __init__(self,
@@ -25,14 +22,8 @@ class LinearRegression():
     self.random_seed = random_seed
     self.optimizer = optimizer
 
-  def add_dummy_feature(self, X):
-    matrix_dummy = np.hstack((np.ones((X.shape[0], 1),
-                                            dtype = X.dtype), 
-                                            X))
-    return matrix_dummy
-
   def preprocess(self, X):
-    X = self.add_dummy_feature(X)
+    X = add_dummy_feature(X)
     return X
 
   def sse_gradient(self, X, w, y):
