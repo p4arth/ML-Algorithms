@@ -1,9 +1,13 @@
 import numpy as np
 
 class StochasticGD():
-    def __init__(self, loss_function = None,
+    def __init__(self, 
+                 penalty = None,
+                 alpha = 0,
+                 loss_function = None,
                  gradient_function = None,
-                penalty = None, alpha = 0):
+                 activation_function = None,
+                 ):
         self.loss = loss_function
         self.gradient = gradient_function
         self.penalty = penalty
@@ -16,9 +20,12 @@ class StochasticGD():
         t0, t1 = 200, 100000
         return t0 / (t + t1)
     
-    def descent(self, X, y, 
-                verbose, epochs):
-        w0 = np.random.normal(0, 1, size=(X.shape[1],1))
+    def descent(self, 
+                X, 
+                y, 
+                verbose, 
+                epochs):
+        w0 = np.random.normal(0, 1, size=(X.shape[1],y.shape[1]))
         t = 0
         self.all_weights = []
         for epoch in range(epochs):
