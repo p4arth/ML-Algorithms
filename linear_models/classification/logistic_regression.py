@@ -16,8 +16,11 @@ from optimizers.stochastic_gd import StochasticGD
 from preprocessing.add_dummy import add_dummy_feature
 
 class LogisticRegression():
-    def __init__(self, penalty = None, alpha = 0,
-                threshold = 0.5, optimizer = 'GD'):
+    def __init__(self, 
+                 penalty = None, 
+                 alpha = 0, 
+                 threshold = 0.5, 
+                 optimizer = 'GD'):
         self.penalty = penalty
         self.optimizer = optimizer
         self.threshold = threshold
@@ -39,35 +42,48 @@ class LogisticRegression():
     def neg_log_gradient(self, X, w, y):
         return (X.T @ (self.sigmoid(X@w) - y)) + self.alpha*w
     
-    def fit(self, X, y,
-            verbose, epochs = 10,
-            lr = 0.01, batch_size = 0,
+    def fit(self, 
+            X, 
+            y,
+            verbose, 
+            epochs = 10,
+            lr = 0.01, 
+            batch_size = 0,
             fit_intercept = False):
         self.intercept = fit_intercept
         if self.intercept:
             X = add_dummy_feature(X)
         if self.optimizer == 'GD':
-            gd = GradientDescent(penalty = self.penalty, alpha = self.alpha,
-                              loss_function = self.neg_log_loss,
-                              gradient_function = self.neg_log_gradient)
-            self.optimized_weights = gd.descent(X, y,
-                                              verbose = verbose,
-                                              epochs = epochs,
-                                              lr = lr)
+            gd = GradientDescent(penalty = self.penalty, 
+                                 alpha = self.alpha, 
+                                 loss_function = self.neg_log_loss, 
+                                 gradient_function = self.neg_log_gradient)
+            self.optimized_weights = gd.descent(X,
+                                                y, 
+                                                verbose = verbose, 
+                                                epochs = epochs, 
+                                                lr = lr)
             self.weights = gd.all_weights
         elif self.optimizer == 'MBGD':
-            mbgd = MiniBatchGD(penalty = self.penalty, alpha = self.alpha,
-                              loss_function = self.neg_log_loss,
-                              gradient_function = self.neg_log_gradient)
-            self.optimized_weights = mbgd.descent(X, y, 
-                                                verbose, epochs=epochs, 
-                                                batch_size = batch_size)
+            mbgd = MiniBatchGD(penalty = self.penalty, 
+                               alpha = self.alpha, 
+                               loss_function = self.neg_log_loss, 
+                               gradient_function = self.neg_log_gradient)
+            self.optimized_weights = mbgd.descent(X,
+                                                  y, 
+                                                  verbose, 
+                                                  epochs=epochs, 
+                                                  batch_size = batch_size)
             self.weights = mbgd.all_weights
         elif self.optimizer == 'SGD':
-            sgd = StochasticGD(penalty = self.penalty, alpha = self.alpha,
-                              loss_function = self.neg_log_loss,
-                              gradient_function = self.neg_log_gradient)
-            self.optimized_weights = sgd.descent(X, y, verbose, epochs=epochs)
+            sgd = StochasticGD(penalty = self.penalty, 
+                               alpha = self.alpha, 
+                               loss_function = self.neg_log_loss, 
+                               gradient_function = self.neg_log_gradient)
+            self.optimized_weights = sgd.descent(X, 
+                                                 y, 
+                                                 verbose, 
+                                                 epochs=epochs)
             self.weights = sgd.all_weights
 
     def predict(self, X):

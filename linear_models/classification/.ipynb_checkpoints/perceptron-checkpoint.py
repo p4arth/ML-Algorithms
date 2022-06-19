@@ -4,7 +4,10 @@ class Perceptron():
     def __init__(self):
         pass
         
-    def fit(self, X_train, y_train, epochs = 10):
+    def fit(self, 
+            X_train, 
+            y_train, 
+            epochs = 10):
         self.w0 = np.zeros(X_train.shape[1]).reshape(-1,1)
         all_weights = [self.w0]
         for epoch in range(epochs):

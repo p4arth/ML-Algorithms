@@ -4,8 +4,9 @@ import itertools
 import functools
 
 class PolynomialRegression():
-    def __init__(self, degrees = 2,
-                optimizer = 'GD',
+    def __init__(self, 
+                 degrees = 2, 
+                 optimizer = 'GD',
                  random_seed = 42):
         self.degrees = degrees
         self.optimizer = optimizer
@@ -22,12 +23,13 @@ class PolynomialRegression():
                 )
         return np.array(transformed_features).T
     
-    def train(self, X_train,
-            y_train,
-            epochs = 200,
-            batch_size = 100,
-            learning_rate = 0.001,
-            verbose = False):
+    def train(self, 
+              X_train,
+              y_train,
+              epochs = 200,
+              batch_size = 100,
+              learning_rate = 0.001,
+              verbose = False):
         X_train = self.polynomial_transform(X_train)
         self.model = LinearRegression(optimizer = self.optimizer)
         self.model.fit(X_train, y_train,

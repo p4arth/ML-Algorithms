@@ -49,28 +49,37 @@ class LinearRegression():
     X_train = self.preprocess(X_train)
     self.alpha = alpha
     if self.optimizer == 'GD':
-      gd = GradientDescent(penalty = penalty, alpha = self.alpha,
-                          loss_function = self.sse_loss,
-                          gradient_function = self.sse_gradient)
-      self.optimized_weights = gd.descent(X_train, y_train,
+      gd = GradientDescent(penalty = penalty, 
+                           alpha = self.alpha, 
+                           loss_function = self.sse_loss, 
+                           gradient_function = self.sse_gradient)
+      self.optimized_weights = gd.descent(X_train, 
+                                          y_train,
                                           verbose = verbose,
                                           epochs = epochs,
                                           lr = learning_rate)
       self.weights = gd.all_weights
     
     elif self.optimizer == 'MBGD':
-      mbgd = MiniBatchGD(penalty = penalty, alpha = self.alpha,
-                          loss_function = self.sse_loss,
-                          gradient_function = self.sse_gradient) 
-      self.optimized_weights = mbgd.descent(X_train, y_train, 
-                                            verbose, epochs=epochs, 
+      mbgd = MiniBatchGD(penalty = penalty, 
+                         alpha = self.alpha, 
+                         loss_function = self.sse_loss, 
+                         gradient_function = self.sse_gradient) 
+      self.optimized_weights = mbgd.descent(X_train, 
+                                            y_train, 
+                                            verbose, 
+                                            epochs=epochs, 
                                             batch_size = batch_size)
       self.weights = mbgd.all_weights
     elif self.optimizer == 'SGD':
-      sgd = StochasticGD(penalty = penalty, alpha = self.alpha,
-                          loss_function = self.sse_loss,
-                          gradient_function = self.sse_gradient) 
-      self.optimized_weights = sgd.descent(X_train, y_train, verbose, epochs=epochs)
+      sgd = StochasticGD(penalty = penalty, 
+                         alpha = self.alpha, 
+                         loss_function = self.sse_loss, 
+                         gradient_function = self.sse_gradient) 
+      self.optimized_weights = sgd.descent(X_train, 
+                                           y_train, 
+                                           verbose, 
+                                           epochs=epochs)
       self.weights = sgd.all_weights
     
   def predict(self, X):

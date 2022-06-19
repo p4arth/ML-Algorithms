@@ -2,7 +2,8 @@ import numpy as np
 from scipy import stats as st
 
 class KNeighborsClassifier():
-    def __init__(self,n_neighbors,
+    def __init__(self, 
+                 n_neighbors,
                  distance_metric):
         assert distance_metric in ['Manhattan', 'Euclidian'], 'Wrong distance metric chosen. The valid distance metrics are ["Manhattan", "Euclidian"]'
         

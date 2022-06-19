@@ -14,9 +14,10 @@ import numpy as np
 import pandas as pd
 
 class LeastSquareClassifier():
-    def __init__(self, n_classes = 2, 
-                 optimizer = 'GD',
-                random_seed = 42):
+    def __init__(self, 
+                 n_classes = 2, 
+                 optimizer = 'GD', 
+                 random_seed = 42):
         self.n_classes = n_classes
         self.optimizer = optimizer
         
@@ -35,8 +36,11 @@ class LeastSquareClassifier():
     def gradient(self, X, w, y):
         return X.T @ (self.predict_training(X, w)  - y) * (1/X.shape[0])
     
-    def gradient_descent(self, X, y, 
-                        verbose, epochs,
+    def gradient_descent(self,
+                         X, 
+                         y, 
+                         verbose, 
+                         epochs,
                          lr):
         w0 = np.random.normal(0, 1, size=(X.shape[1],1))
         self.all_weights = []
@@ -47,12 +51,13 @@ class LeastSquareClassifier():
           w0 = w0 - lr*(self.gradient(X, w0, y))
         return w0
     
-    def train(self, X_train,
-            y_train,
-            epochs = 200,
-            batch_size = 100,
-            learning_rate = 0.001,
-            verbose = False):
+    def train(self, 
+              X_train, 
+              y_train, 
+              epochs = 200, 
+              batch_size = 100, 
+              learning_rate = 0.001, 
+              verbose = False):
         y_train = self.encode_labels(y_train)
         self.linreg = LinearRegression()
         X_train = self.linreg.add_dummy_feature(X_train)
