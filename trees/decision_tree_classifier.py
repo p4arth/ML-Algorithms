@@ -58,8 +58,9 @@ class DecisionTreeClassifier():
         '''
         This function returns the best split of our data.
         The function will go through each attribute in the data
-        and for each attribute it will that splitting on which
-        datapoint gives the maximum information gain.
+        and try to find the best split based on each data
+        point in every attribute. It will find a split that has
+        the maximum information gain.
         
         The function returns a dictionary containing the best split
         which is used in the make_tree method.
