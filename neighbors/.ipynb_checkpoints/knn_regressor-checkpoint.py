@@ -1,7 +1,7 @@
 import numpy as np
 from scipy import stats as st
 
-class KNeighborsClassifier():
+class KNeighborsRegressor():
     def __init__(self, 
                  n_neighbors = 3,
                  distance_metric = 'Euclidian'):
@@ -38,7 +38,7 @@ class KNeighborsClassifier():
             minimal_distance_idx = np.argpartition(self.distances,
                                                   self.n_neighbors)
             minimal_distance_idx = minimal_distance_idx[:self.n_neighbors]
-            classes = self.y[minimal_distance_idx]
-            label = st.mode(classes)[0][0]
+            values = self.y[minimal_distance_idx]
+            label = np.mean(values)
             yhat.append(label)
         return np.array(yhat)
