@@ -11,6 +11,8 @@ Here is a tree structure of the repository.
 .
 └── Ml Algorithms/
     ├── Tutorials
+    ├── clustering/
+    │   └── kmeans.py
     ├── generative/
     │   ├── bernoulli_nb.py
     │   └── gaussian_nb.py
@@ -24,7 +26,8 @@ Here is a tree structure of the repository.
     │       ├── linear_regression.py
     │       └── polynomial_regression.py
     ├── neighbors/
-    │   └── knn_classifier.py
+    │   ├── knn_classifier.py
+    │   └── knn_regressor.py
     ├── opitmizers/
     │   ├── gradient_descent.py
     │   ├── mini_batch_gd.py
