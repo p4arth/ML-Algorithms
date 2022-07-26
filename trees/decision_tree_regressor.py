@@ -117,9 +117,13 @@ class DecisionTreeRegressor():
         This function calculates and returns the variance
         threshold of a split.
         '''
+#         print(y, y_left, y_right)
         wleft = len(y_left)/len(y)
         wright = len(y_right)/len(y)
-        return np.var(y) - ((wleft*np.var(y_left)) + (wright*np.var(y_right)))
+        var_y = 0 if y == [] else np.var(y)
+        var_yleft = 0 if y_left == [] else np.var(y_left)
+        var_yright = 0 if y_right == [] else np.var(y_right)
+        return var_y - ((wleft*var_yleft) + (wright*var_yright))
     
     def exec_(self, tree=None, indent = ' '):
         if tree.left_child == None and tree.right_child == None:
@@ -162,8 +166,9 @@ class DecisionTreeRegressor():
         This function predicts the class labels of all
         the data points present in the feature matrix X.
         '''
-        res = []
+        res = np.zeros(X.shape[0])
         for i in range(X.shape[0]):
             node_value = self.traverse_tree(self.tree, X[i])
-            res.append(node_value)
+#             res.append(node_value)
+            res[i] = node_value
         return res
