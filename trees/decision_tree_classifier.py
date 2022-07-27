@@ -29,12 +29,21 @@ class Node():
 class DecisionTreeClassifier():
     def __init__(self, 
                  min_samples_split = 4,
-                 max_depth = 5):
+                 max_depth = 5,
+                 max_features = None):
         self.min_samples_split = min_samples_split
         self.max_depth = max_depth
+        self.max_features = max_features
+        self.feature_indices = None
+        self.counter = 1
 
-    def make_tree(self,  X, y, depth=0):
+    def make_tree(self, X, y, depth=0):
         '''This function creates the decision tree recursively'''
+        if self.counter == 1 and self.max_features != None:
+            random_features = np.random.randint(X.shape[1], size = self.max_features)
+            self.feature_indices = random_features
+            X = X[:, random_features]
+            self.counter = self.counter + 1
         if len(X) > self.min_samples_split and self.max_depth != depth:
             best_split = self.get_best_split(X, y)
             if best_split['Information_gain'] > 0:
@@ -178,8 +187,16 @@ class DecisionTreeClassifier():
         This function predicts the class labels of all
         the data points present in the feature matrix X.
         '''
-        res = []
-        for i in range(X.shape[0]):
-            node_value = self.traverse_tree(self.tree, X[i])
-            res.append(node_value)
-        return res
+        if self.feature_indices is None:
+            res = []
+            for i in range(X.shape[0]):
+                node_value = self.traverse_tree(self.tree, X[i])
+                res.append(node_value)
+            return res
+        else:
+            X = X[:,self.feature_indices]
+            res = []
+            for i in range(X.shape[0]):
+                node_value = self.traverse_tree(self.tree, X[i])
+                res.append(node_value)
+            return res
