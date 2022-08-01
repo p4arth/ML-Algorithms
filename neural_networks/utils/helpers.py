@@ -9,11 +9,7 @@ def sse_loss(ytrue, yhat):
 
 ###### =======ACTIVATIONS======= #####
 def softmax(z):
-    softmaxed = []
-    for v in z:
-        ex = np.exp(v) / np.sum(np.exp(v))
-        softmaxed.append(ex)
-    return np.array(softmaxed)
+    return np.exp(z) / np.sum(np.exp(z), axis = 1).reshape(-1, 1)
 
 def identity(z):
     return z
@@ -22,7 +18,7 @@ def relu(z):
     return np.where(z >= 0 , z, 0)
 
 def sigmoid(z):
-    return 1 / (1 + np.exo(-z))
+    return 1 / (1 + np.exp(-z))
 
 
 ###### =======GRADIENTS======= #####
