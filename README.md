@@ -28,6 +28,10 @@ Here is a tree structure of the repository.
     ├── neighbors/
     │   ├── knn_classifier.py
     │   └── knn_regressor.py
+    ├── neural networks/
+    │   ├── utils/
+    │   │   └── helpers.py
+    │   └── neural_net.py
     ├── opitmizers/
     │   ├── gradient_descent.py
     │   ├── mini_batch_gd.py
@@ -35,6 +39,8 @@ Here is a tree structure of the repository.
     ├── preprocessing/
     │   ├── add_dummy.py
     │   └── ohe.py
+    ├── svm/
+    │   └── soft_svm.py
     └── trees/
         ├── decision_tree_classifier.py
         └── decision_tree_regressor.py
