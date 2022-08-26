@@ -35,8 +35,7 @@ class LogisticRegression():
     def neg_log_loss(self, X, w, y):
         assert X.shape[-1] == w.shape[0], 'Incompatible shapes'
         y_hat = self.sigmoid(X@w)
-        loss_ = (1/X.shape[0]) * (-1) * np.sum(y*(np.log(y_hat)) + 
-                              (1-y)*(1 - (np.log(y_hat))) + (self.alpha/2) * np.dot(w.T, w))
+        loss_ = (1/X.shape[0]) * (-1) * np.sum(y*(np.log(y_hat)) + (1-y)*np.log(1 - y_hat) + (self.alpha/2) * np.dot(w.T, w))
         return loss_
     
     def neg_log_gradient(self, X, w, y):
